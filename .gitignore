@@ -1,0 +1,7 @@
+*.bmp
+*.jpg
+*.png
+*.vcxproj*
+Debug/
+images/
+Thumbs.db
