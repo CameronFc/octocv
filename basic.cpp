@@ -2,6 +2,7 @@
 #include <opencv/highgui.h>
 #include <iostream>
 #include <string.h>
+#include "basic.h"
 
 using namespace cv;
 
