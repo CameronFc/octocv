@@ -4,6 +4,8 @@
 // author : Eric Yuan 
 // my blog: http://eric-yuan.me/
 
+// Modified from original
+
 #include "opencv2/core/core.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
 #include "opencv2/highgui/highgui.hpp"
@@ -94,82 +96,42 @@ concatenateMatC(vector<Mat> &vec){
 void
 read_CIFAR10(Mat &trainX, Mat &testX, Mat &trainY, Mat &testY){
 
+    int NUM_CIFAR_BATCHES = 5;
+    string path = "C:/Users/s1373037/Downloads/";
     string filename;
-    filename = "cifar-10-batches-bin/data_batch_1.bin";
-    vector<Mat> batch1;
-    Mat label1 = Mat::zeros(1, 10000, CV_64FC1);
-    read_batch(filename, batch1, label1);
 
-    filename = "cifar-10-batches-bin/data_batch_2.bin";
-    vector<Mat> batch2;
-    Mat label2 = Mat::zeros(1, 10000, CV_64FC1);
-    read_batch(filename, batch2, label2);
+    std::cout << "Starting to read batches... \n";
+    for (int i = 1; i <= NUM_CIFAR_BATCHES + 1; i++){
 
-    filename = "cifar-10-batches-bin/data_batch_3.bin";
-    vector<Mat> batch3;
-    Mat label3 = Mat::zeros(1, 10000, CV_64FC1);
-    read_batch(filename, batch3, label3);
+        // For all the batches that are not the test case, set path to batch
+        if (i != 6){
+            filename = path + "cifar-10-batches-bin/data_batch_" + to_string(i) + ".bin";
+        }
+        else{
+            filename = path + "cifar-10-batches-bin/test_batch.bin";
+        }
 
-    filename = "cifar-10-batches-bin/data_batch_4.bin";
-    vector<Mat> batch4;
-    Mat label4 = Mat::zeros(1, 10000, CV_64FC1);
-    read_batch(filename, batch4, label4);
+        // Read the batch, then concatenate labels with data
+        vector<Mat> batch;
+        Mat label = Mat::zeros(1, 10000, CV_64FC1);
+        read_batch(filename, batch, label);
+        std::cout << "Read " << to_string(i) << " batch\n";
+        Mat mt = concatenateMat(batch);
 
-    filename = "cifar-10-batches-bin/data_batch_5.bin";
-    vector<Mat> batch5;
-    Mat label5 = Mat::zeros(1, 10000, CV_64FC1);
-    read_batch(filename, batch5, label5);
-
-    filename = "cifar-10-batches-bin/test_batch.bin";
-    vector<Mat> batcht;
-    Mat labelt = Mat::zeros(1, 10000, CV_64FC1);
-    read_batch(filename, batcht, labelt);
-
-    Mat mt1 = concatenateMat(batch1);
-    Mat mt2 = concatenateMat(batch2);
-    Mat mt3 = concatenateMat(batch3);
-    Mat mt4 = concatenateMat(batch4);
-    Mat mt5 = concatenateMat(batch5);
-    Mat mtt = concatenateMat(batcht);
-
-    Rect roi = cv::Rect(mt1.cols * 0, 0, mt1.cols, trainX.rows);
-    Mat subView = trainX(roi);
-    mt1.copyTo(subView);
-    roi = cv::Rect(label1.cols * 0, 0, label1.cols, 1);
-    subView = trainY(roi);
-    label1.copyTo(subView);
-
-    roi = cv::Rect(mt1.cols * 1, 0, mt1.cols, trainX.rows);
-    subView = trainX(roi);
-    mt2.copyTo(subView);
-    roi = cv::Rect(label1.cols * 1, 0, label1.cols, 1);
-    subView = trainY(roi);
-    label2.copyTo(subView);
-
-    roi = cv::Rect(mt1.cols * 2, 0, mt1.cols, trainX.rows);
-    subView = trainX(roi);
-    mt3.copyTo(subView);
-    roi = cv::Rect(label1.cols * 2, 0, label1.cols, 1);
-    subView = trainY(roi);
-    label3.copyTo(subView);
-
-    roi = cv::Rect(mt1.cols * 3, 0, mt1.cols, trainX.rows);
-    subView = trainX(roi);
-    mt4.copyTo(subView);
-    roi = cv::Rect(label1.cols * 3, 0, label1.cols, 1);
-    subView = trainY(roi);
-    label4.copyTo(subView);
-
-    roi = cv::Rect(mt1.cols * 4, 0, mt1.cols, trainX.rows);
-    subView = trainX(roi);
-    mt5.copyTo(subView);
-    roi = cv::Rect(label1.cols * 4, 0, label1.cols, 1);
-    subView = trainY(roi);
-    label5.copyTo(subView);
-
-    mtt.copyTo(testX);
-    labelt.copyTo(testY);
-
+        // For all the batches that are not the test case, place in appropriate spot in training section
+        if (i != 6){
+            Rect roi = cv::Rect(mt.cols * (i-1), 0, mt.cols, trainX.rows);
+            Mat subView = trainX(roi);
+            mt.copyTo(subView);
+            roi = cv::Rect(label.cols * (i-1), 0, label.cols, 1);
+            subView = trainY(roi);
+            label.copyTo(subView);
+        }
+        else{
+            mt.copyTo(testX);
+            label.copyTo(testY);
+        }
+    }
 }
 
 int
