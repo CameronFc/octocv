@@ -7,7 +7,7 @@ int main(int argc, char** argv)
 {
 
     // runBasic(argc, argv);
-    runReader();
+    runHybrid(argc, argv);
 
     /// Wait until user press some key
     waitKey();

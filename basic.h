@@ -9,6 +9,7 @@ using namespace cv;
 
 void runBasic(int, char**);
 void read_batch(string filename, vector<Mat> &vec, Mat &label);
+void runHybrid(int, char**);
 Mat concatenateMat(vector<Mat> &vec);
 Mat concatenateMatC(vector<Mat> &vec);
 void read_CIFAR10(Mat &trainX, Mat &testX, Mat &trainY, Mat &testY);

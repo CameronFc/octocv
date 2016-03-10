@@ -67,7 +67,8 @@ void runBasic(int argc, char** argv){
     for (int i = 1; i < argc; i++){
         size_t lastindex = std::string(argv[i]).find_last_of(".");
         string rawname = std::string(argv[i]).substr(0, lastindex);
-        string outputName = std::string("J:\\Visual Studio 2013\\Projects\\OpencvMaster\\OpencvMaster\\images\\") + rawname;
+        string dest = "J:\\Visual Studio 2013\\Projects\\OpencvMaster\\OpencvMaster\\images\\";
+        string outputName = dest + rawname;
 
         Mat image = imread(argv[i]);
         Mat new_image = Mat::zeros(image.size(), image.type());
