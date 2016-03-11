@@ -7,7 +7,7 @@ int main(int argc, char** argv)
 {
 
     // runBasic(argc, argv);
-    runQ5();
+    runQ2();
 
     /// Wait until user press some key
     waitKey();

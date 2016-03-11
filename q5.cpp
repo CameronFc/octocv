@@ -6,7 +6,6 @@
 #include <math.h>
 
 void runQ5(){
-
     Mat image = imread("images/midterm3.bmp");
     namedWindow("Original Image", 1);
     imshow("Original Image", image);
@@ -26,7 +25,7 @@ void runQ5(){
     int rows = kernel.rows;
     int cols = kernel.cols;
     double halfSize = (double)ksize / 2.0;
-    double sigma = 5;
+    double sigma = 10;
     for (size_t i = 0; i<rows; i++)
     for (size_t j = 0; j<cols; j++)
     {

@@ -15,3 +15,5 @@ Mat concatenateMatC(vector<Mat> &vec);
 void read_CIFAR10(Mat &trainX, Mat &testX, Mat &trainY, Mat &testY);
 int runReader();
 void runQ5();
+void runQ1();
+void runQ2();
