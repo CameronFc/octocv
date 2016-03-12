@@ -54,9 +54,11 @@ void runQ5(){
     filter2D(highPassed, hl, -1, kernel);
     namedWindow("High->LowPassed", 1);
     imshow("High->LowPassed", hl);
+    imwrite("images/highLow.bmp", hl);
 
     Mat lh;
     filter2D(lowPassed, lh, -1, highPass);
     namedWindow("Low->HighPassed", 1);
     imshow("Low->HighPassed", lh);
+    imwrite("images/lowHigh.bmp", lh);
 }
